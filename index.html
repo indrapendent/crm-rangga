@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RANGGA FOOD // RETRO-FUTURISTIC CRM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* RETRO-FUTURISM SYSTEM TOKENS FROM DESIGN.MD */
+        :root {
+            --bg-deep-black: #1A1A2E;
+            --neon-blue: #0080FF;
+            --hot-pink: #FF006E;
+            --neon-cyan: #00FFFF;
+            --purple-surface: #5D34D0;
+            --metallic-silver: #C0C0C0;
+            --gold-accent: #FFD700;
+        }
+
+        body {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: var(--bg-deep-black);
+            color: var(--metallic-silver);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* CRT SCANLINES OVERLAY EFFECT */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* NEON GLOW EFFECTS */
+        .neon-border-pink {
+            border: 1px solid var(--hot-pink);
+            box-shadow: 0 0 8px rgba(255, 0, 110, 0.4);
+        }
+
+        .neon-border-cyan {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+        }
+
+        .neon-border-blue {
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 8px rgba(0, 128, 255, 0.4);
+        }
+
+        .neon-text-pink {
+            color: var(--hot-pink);
+            text-shadow: 0 0 6px rgba(255, 0, 110, 0.6);
+        }
+
+        .neon-text-cyan {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
+        }
+
+        .neon-text-gold {
+            color: var(--gold-accent);
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+        }
+
+        /* BUTTON STYLES */
+        .btn-retro-primary {
+            background-color: var(--neon-blue);
+            color: var(--bg-deep-black);
+            font-weight: 700;
+            border-radius: 0.5rem;
+            transition: all 200ms ease-out;
+        }
+
+        .btn-retro-primary:hover {
+            box-shadow: 0 0 12px var(--neon-blue);
+            transform: translateY(-1px);
+        }
+
+        .btn-retro-pink {
+            background-color: var(--hot-pink);
+            color: #FFFFFF;
+            font-weight: 700;
+            border-radius: 0.5rem;
+            transition: all 200ms ease-out;
+        }
+
+        .btn-retro-pink:hover {
+            box-shadow: 0 0 12px var(--hot-pink);
+            transform: translateY(-1px);
+        }
+
+        /* Custom Focus Ring for Accessibility (R-32 & R-39) */
+        button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--neon-cyan) !important;
+            outline-offset: 2px !important;
+        }
+
+        a, button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-[100dvh] flex flex-col md:flex-row">
+
+    <!-- LOGIN SCREEN OVERLAY -->
+    <div id="login-screen" class="fixed inset-0 bg-[#1A1A2E] z-50 flex items-center justify-center p-4">
+        <div class="bg-[#121223] neon-border-pink rounded-xl p-8 max-w-md w-full space-y-6">
+            <div class="text-center space-y-2 border-b border-[#FF006E]/30 pb-4">
+                <div class="w-12 h-12 rounded-lg bg-[#FF006E] flex items-center justify-center font-bold text-black text-xl mx-auto shadow-[0_0_15px_#FF006E]">
+                    RF
+                </div>
+                <h1 class="text-xl font-bold neon-text-cyan tracking-wider">RANGGA_FOOD // CRM</h1>
+                <p class="text-xs text-slate-400 font-mono">[RETRO-FUTURISTIC SYSTEM ACCESS]</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label for="login-user" class="text-xs font-bold neon-text-pink block mb-1">&gt; USERNAME_ADMIN:</label>
+                    <input type="text" id="login-user" required class="w-full bg-[#1A1A2E] neon-border-cyan rounded-lg p-3 text-xs text-cyan-300 focus:bg-[#22223d]" placeholder="rangga_master">
+                </div>
+                <div>
+                    <label for="login-pass" class="text-xs font-bold neon-text-pink block mb-1">&gt; PASSWORD_KEY:</label>
+                    <input type="password" id="login-pass" required class="w-full bg-[#1A1A2E] neon-border-cyan rounded-lg p-3 text-xs text-cyan-300 focus:bg-[#22223d]" placeholder="••••••••">
+                </div>
+
+                <div id="login-error" class="hidden text-xs bg-[#FF006E]/20 text-red-300 p-3 rounded-lg border border-[#FF006E]">
+                    [!] ACCESS DENIED: Kredensial tidak terverifikasi oleh server.
+                </div>
+
+                <button type="submit" class="w-full btn-retro-pink py-3 text-xs tracking-widest uppercase">
+                    [INITIALIZE_SYSTEM_LOGIN]
+                </button>
+            </form>
+
+            <div class="text-center text-[11px] text-slate-500 font-mono border-t border-slate-800 pt-3">
+                SECURE TERMINAL // RANGGA FOOD DISTRIBUSI v8.0
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP DASHBOARD -->
+    <div id="app-content" class="hidden flex-1 flex flex-col md:flex-row w-full">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="w-full md:w-64 bg-[#121223] neon-border-blue p-5 flex flex-col justify-between shrink-0">
+            <div>
+                <!-- Brand Header -->
+                <div class="border-b border-[#0080FF]/30 pb-4 mb-6">
+                    <div class="bg-[#0080FF] text-black font-bold px-2 py-0.5 text-[11px] rounded inline-block mb-1">CYBER_SYS_v8.0</div>
+                    <h1 class="font-bold text-lg neon-text-cyan">RANGGA FOOD</h1>
+                    <div class="text-[10px] text-slate-400">UMKM CRM</div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="space-y-2">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-black bg-[#00FFFF] shadow-[0_0_10px_#00FFFF] text-left">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4" aria-hidden="true"></i>
+                        01 // DASHBOARD
+                    </button>
+                    <button onclick="switchTab('products')" id="nav-products" class="w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-slate-300 bg-[#1A1A2E] border border-slate-700 hover:border-[#FF006E] hover:text-[#FF006E] transition text-left">
+                        <i data-lucide="package" class="w-4 h-4" aria-hidden="true"></i>
+                        02 // KATALOG_HARGA
+                    </button>
+                    <button onclick="switchTab('customers')" id="nav-customers" class="w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-slate-300 bg-[#1A1A2E] border border-slate-700 hover:border-[#FF006E] hover:text-[#FF006E] transition text-left">
+                        <i data-lucide="users" class="w-4 h-4" aria-hidden="true"></i>
+                        03 // PELANGGAN_DB
+                    </button>
+                    <button onclick="switchTab('tickets')" id="nav-tickets" class="w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-slate-300 bg-[#1A1A2E] border border-slate-700 hover:border-[#FF006E] hover:text-[#FF006E] transition text-left">
+                        <i data-lucide="snowflake" class="w-4 h-4" aria-hidden="true"></i>
+                        04 // TIKET_KELUHAN
+                    </button>
+                    <button onclick="switchTab('campaigns')" id="nav-campaigns" class="w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-slate-300 bg-[#1A1A2E] border border-slate-700 hover:border-[#FF006E] hover:text-[#FF006E] transition text-left">
+                        <i data-lucide="message-square" class="w-4 h-4" aria-hidden="true"></i>
+                        05 // BROADCAST_WA
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Active Admin Info & Logout -->
+            <div class="mt-8 p-3 rounded-lg bg-[#1A1A2E] border border-[#0080FF]/40 flex items-center justify-between">
+                <div>
+                    <div class="text-[10px] text-slate-400">OPERATOR_SESI:</div>
+                    <div class="text-xs font-bold neon-text-pink" id="display-admin-name">rangga_master</div>
+                </div>
+                <button onclick="logout()" title="Keluar Akun" aria-label="Keluar Akun" class="bg-[#FF006E] text-white p-1.5 rounded font-bold hover:shadow-[0_0_10px_#FF006E]">
+                    <i data-lucide="log-out" class="w-4 h-4" aria-hidden="true"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-[1280px]">
+
+            <!-- TAB 1: DASHBOARD -->
+            <div id="tab-dashboard" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold neon-text-cyan tracking-wider">SYSTEM_OPERATIONAL_DASHBOARD</h2>
+                        <p class="text-xs text-slate-400 mt-1">Pilih blok metrik untuk mengekstrak rincian data terstruktur.</p>
+                    </div>
+                    <button onclick="openTicketModal()" class="btn-retro-pink px-4 py-2 text-xs uppercase self-start sm:self-auto flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4" aria-hidden="true"></i>
+                        [+] Catat Keluhan
+                    </button>
+                </div>
+
+                <!-- Clickable Metric Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Card 1: Total Pelanggan -->
+                    <div onclick="filterDashboardData('all-customers')" id="card-all-customers" class="p-4 bg-[#121223] neon-border-cyan rounded-lg cursor-pointer hover:bg-[#1A1A2E] transition">
+                        <div class="text-xs text-slate-400 font-bold">TOTAL_PELANGGAN</div>
+                        <div class="text-2xl font-bold text-white mt-1" id="metric-total-customers">0 MEMBER</div>
+                        <div class="text-[11px] neon-text-cyan mt-2 font-bold">[TAMPILKAN ALL DATA]</div>
+                    </div>
+
+                    <!-- Card 2: Mitra Reseller Active -->
+                    <div onclick="filterDashboardData('reseller-only')" id="card-reseller-only" class="p-4 bg-[#121223] border border-slate-700 rounded-lg cursor-pointer hover:border-[#FFD700] transition">
+                        <div class="text-xs text-slate-400 font-bold">RESELLER_AKTIF</div>
+                        <div class="text-2xl font-bold neon-text-gold mt-1" id="metric-total-resellers">0 MITRA</div>
+                        <div class="text-[11px] neon-text-gold mt-2 font-bold">[FILTER GROSIR]</div>
+                    </div>
+
+                    <!-- Card 3: Keluhan Pending -->
+                    <div onclick="filterDashboardData('pending-tickets')" id="card-pending-tickets" class="p-4 bg-[#121223] border border-slate-700 rounded-lg cursor-pointer hover:border-[#FF006E] transition">
+                        <div class="text-xs text-slate-400 font-bold">KELUHAN_PENDING</div>
+                        <div class="text-2xl font-bold neon-text-pink mt-1" id="metric-pending-tickets">0 TIKET</div>
+                        <div class="text-[11px] neon-text-pink mt-2 font-bold">[PERLU TINDAKAN]</div>
+                    </div>
+
+                    <!-- Card 4: Omset Bulan Ini -->
+                    <div onclick="filterDashboardData('revenue-orders')" id="card-revenue-orders" class="p-4 bg-[#121223] border border-slate-700 rounded-lg cursor-pointer hover:border-[#0080FF] transition">
+                        <div class="text-xs text-slate-400 font-bold">VOLUME_OMSET</div>
+                        <div class="text-2xl font-bold text-white mt-1">RP 28.650.000</div>
+                        <div class="text-[11px] text-[#0080FF] mt-2 font-bold">[RINCIAN PRODUK]</div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Data Table Panel -->
+                <div class="bg-[#121223] neon-border-blue rounded-lg p-4 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 id="panel-title" class="font-bold text-xs text-white flex items-center gap-2">
+                            <i data-lucide="list" class="w-4 h-4 text-[#00FFFF]" aria-hidden="true"></i>
+                            PANEL_DATA_TERFILTER
+                        </h3>
+                        <span id="panel-badge" class="bg-[#0080FF] text-black text-[10px] font-bold px-2 py-0.5 rounded">SEMUA MEMBER</span>
+                    </div>
+
+                    <div id="dynamic-data-container" class="overflow-x-auto">
+                        <!-- Content Injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: KATALOG & HARGA REAL -->
+            <div id="tab-products" class="space-y-6 hidden">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-xl font-bold neon-text-pink">KATALOG_PRODUK // ACUAN_HARGA</h2>
+                    <p class="text-xs text-slate-400 mt-1">Data pembanding acuan harga eceran vs grosir reseller resmi.</p>
+                </div>
+
+                <!-- ASYMMETRIC GRID (R-05 & DESIGN.MD) -->
+                <div class="space-y-4" id="product-list-zigzag">
+                    <!-- Products Injected via JS -->
+                </div>
+            </div>
+
+            <!-- TAB 3: PELANGGAN & ORDER -->
+            <div id="tab-customers" class="space-y-6 hidden">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-xl font-bold neon-text-cyan">DATABASE_PELANGGAN // UNIT_USAHA</h2>
+                    <p class="text-xs text-slate-400 mt-1">Rekapitulasi kontak mitra eceran, grosir, dan catering.</p>
+                </div>
+
+                <div class="bg-[#121223] neon-border-blue rounded-lg p-4 overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-[#1A1A2E] text-cyan-300 border-b border-slate-700 uppercase">
+                            <tr>
+                                <th class="p-3">NAMA_PELANGGAN</th>
+                                <th class="p-3">KATEGORI</th>
+                                <th class="p-3">WHATSAPP</th>
+                                <th class="p-3">TOTAL_BELANJA_(LTV)</th>
+                                <th class="p-3">ITEM_FAVORIT</th>
+                                <th class="p-3">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-table-body" class="divide-y divide-slate-800">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: KELUHAN & RETUR -->
+            <div id="tab-tickets" class="space-y-6 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold neon-text-pink">LAPORAN_KELUHAN // TICKETING</h2>
+                        <p class="text-xs text-slate-400 mt-1">Pencatatan kendala kurir instant, kemasan bocor, dan kualitas suhu.</p>
+                    </div>
+                    <button onclick="openTicketModal()" class="btn-retro-pink px-4 py-2 text-xs uppercase flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4" aria-hidden="true"></i>
+                        [+] Catat Keluhan
+                    </button>
+                </div>
+
+                <div id="full-ticket-list" class="space-y-3">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- TAB 5: PROMO & BROADCAST WA -->
+            <div id="tab-campaigns" class="space-y-6 hidden">
+                <div class="border-b border-slate-800 pb-4">
+                    <h2 class="text-xl font-bold neon-text-gold">BROADCAST_WHATSAPP // PROMO</h2>
+                    <p class="text-xs text-slate-400 mt-1">Kirim instruksi stok segar atau penawaran kuota grosir.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-[#121223] neon-border-pink rounded-lg p-4 space-y-4">
+                        <h3 class="font-bold text-xs neon-text-pink uppercase">[FORM_BROADCAST_PESAN]</h3>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label for="campaign-target" class="text-xs font-bold text-slate-300 block mb-1">TARGET_SEGMENTASI:</label>
+                                <select id="campaign-target" class="w-full bg-[#1A1A2E] border border-slate-700 rounded-lg p-2.5 text-xs text-cyan-300">
+                                    <option value="all">SEMUA PELANGGAN & RESELLER</option>
+                                    <option value="reseller">KHUSUS MITRA RESELLER (GROSIR)</option>
+                                    <option value="churn">PELANGGAN LAMA TIDAK BELI (>30 HARI)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="campaign-message" class="text-xs font-bold text-slate-300 block mb-1">ISI_PESAN_PROMO:</label>
+                                <textarea id="campaign-message" rows="5" class="w-full bg-[#1A1A2E] border border-slate-700 rounded-lg p-2.5 text-xs text-cyan-300" placeholder="Ketik rincian stok atau instruksi promo..."></textarea>
+                            </div>
+
+                            <button onclick="sendBroadcast()" class="w-full btn-retro-primary py-3 text-xs uppercase">
+                                [PROSES KIRIM BROADCAST WA]
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#121223] border border-slate-700 rounded-lg p-4 space-y-3">
+                        <h3 class="font-bold text-xs neon-text-cyan uppercase">[TEMPLATE_DOKUMEN]</h3>
+                        
+                        <button onclick="useTemplate('dimsum')" class="w-full text-left p-3 bg-[#1A1A2E] border border-slate-700 rounded-lg hover:border-[#00FFFF] transition">
+                            <div class="font-bold text-xs neon-text-cyan">TEMPLATE_RESTOCK_DIMSUM</div>
+                            <div class="text-[11px] text-slate-300 mt-1">"Halo Kak! Dimsum Ayam frozen favoritmu ready stok segar lagi di Rangga Food. Pemesanan hari ini potongan harga 10%."</div>
+                        </button>
+                        
+                        <button onclick="useTemplate('reseller')" class="w-full text-left p-3 bg-[#1A1A2E] border border-slate-700 rounded-lg hover:border-[#FFD700] transition">
+                            <div class="font-bold text-xs neon-text-gold">TEMPLATE_GROSIR_RESELLER</div>
+                            <div class="text-[11px] text-slate-300 mt-1">"Halo Mitra Rangga Food! Pengambilan minimal 20 pack Fiesta Nugget dan Sosis Kanzler mendapat potongan harga khusus reseller."</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL FORM TIKET KELUHAN -->
+    <div id="ticket-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#121223] neon-border-pink rounded-xl p-6 max-w-md w-full space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-xs neon-text-pink uppercase">[CATAT_KELUHAN_BARU]</h3>
+                <button onclick="closeTicketModal()" aria-label="Tutup Form Modal" class="bg-[#FF006E] text-white font-bold px-2 py-1 text-xs rounded">[X]</button>
+            </div>
+
+            <form onsubmit="handleCreateTicket(event)" class="space-y-3">
+                <div>
+                    <label for="input-customer" class="text-xs font-bold text-slate-300 block mb-1">NAMA_PELANGGAN:</label>
+                    <input type="text" id="input-customer" required class="w-full bg-[#1A1A2E] border border-slate-700 rounded-lg p-2.5 text-xs text-cyan-300" placeholder="Contoh: Toko Berkah Pamulang">
+                </div>
+
+                <div>
+                    <label for="input-category" class="text-xs font-bold text-slate-300 block mb-1">KATEGORI_KENDALA:</label>
+                    <select id="input-category" class="w-full bg-[#1A1A2E] border border-slate-700 rounded-lg p-2.5 text-xs text-cyan-300">
+                        <option value="Kemasan Bocor / Plastik Rusak">Kemasan Bocor / Plastik Rusak</option>
+                        <option value="Produk Lumer / Penurunan Kualitas">Produk Lumer / Penurunan Kualitas</option>
+                        <option value="Keterlambatan Kurir Instant">Keterlambatan Kurir Instant</option>
+                        <option value="Salah Kirim Varian Item">Salah Kirim Varian Item</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="input-detail" class="text-xs font-bold text-slate-300 block mb-1">RINCIAN_MASALAH:</label>
+                    <textarea id="input-detail" required rows="3" class="w-full bg-[#1A1A2E] border border-slate-700 rounded-lg p-2.5 text-xs text-cyan-300" placeholder="Jelaskan detail laporan komplain..."></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                    <button type="button" onclick="closeTicketModal()" class="px-3 py-2 text-xs font-bold bg-slate-800 text-slate-300 rounded">BATAL</button>
+                    <button type="submit" class="px-3 py-2 text-xs font-bold btn-retro-pink">[SIMPAN_LAPORAN]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        const products = [
+            { name: "Dimsum Ayam Mix (Pack 50 + Saus)", eceran: 65000, reseller: 52000, unit: "Pack 50 pcs", stok: 140, category: "Dimsum", sales: 420 },
+            { name: "Fiesta Chicken Nugget 500g", eceran: 58000, reseller: 49000, unit: "Pack 500g", stok: 95, category: "Olahan Ayam", sales: 310 },
+            { name: "Kanzler Singles Sausage Cheese 65g", eceran: 9500, reseller: 7800, unit: "Pcs 65g", stok: 320, category: "Sosis", sales: 850 },
+            { name: "Baso Sapi Urat Super Sumber Selera 500g", eceran: 52000, reseller: 43500, unit: "Pack 50 pcs", stok: 18, category: "Olahan Daging", sales: 240 },
+            { name: "Farmhouse French Fries Shoestring 1kg", eceran: 38000, reseller: 31000, unit: "Pack 1kg", stok: 110, category: "Kentang", sales: 290 },
+            { name: "Cedea Fish Roll 500g", eceran: 32000, reseller: 26500, unit: "Pack 500g", stok: 80, category: "Seafood Olahan", sales: 195 }
+        ];
+
+        let customers = [
+            { name: "Ibu Rina (Toko Frozen Pamulang)", type: "Reseller", wa: "0812-3456-7890", ltv: "Rp 14.500.000", favorite: "Dimsum Ayam 50s", status: "Aktif" },
+            { name: "Pak Budi (Catering Berkah BSD)", type: "Catering", wa: "0819-8765-4321", ltv: "Rp 22.800.000", favorite: "Baso Sumber Selera", status: "Aktif" },
+            { name: "Toko Kelontong Berkah Bintaro", type: "Reseller", wa: "0813-9988-7766", ltv: "Rp 11.200.000", favorite: "Kanzler Singles", status: "Aktif" },
+            { name: "Kedai Kopi & Snack Melati", type: "Reseller", wa: "0856-4433-2211", ltv: "Rp 9.400.000", favorite: "Farmhouse Fries 1kg", status: "Aktif" },
+            { name: "Siti Rahma (Komplek Serua)", type: "Eceran", wa: "0857-1122-3344", ltv: "Rp 650.000", favorite: "Fiesta Nugget 500g", status: "Potensi Churn" },
+            { name: "Dapur Mama Maya (Ciputat)", type: "Catering", wa: "0821-5566-7788", ltv: "Rp 18.100.000", favorite: "Cedea Fish Roll", status: "Aktif" },
+            { name: "Agen Sosis Pak Hendra (Pondok Aren)", type: "Reseller", wa: "0818-0011-2233", ltv: "Rp 16.300.000", favorite: "Bernardi Burger Patties", status: "Aktif" },
+            { name: "Dewi Kartika (Perumahan Batan)", type: "Eceran", wa: "0878-3322-1100", ltv: "Rp 420.000", favorite: "Dimsum Ayam 50s", status: "Aktif" },
+            { name: "Toko Sembako Bang Ali", type: "Reseller", wa: "0896-5544-3322", ltv: "Rp 8.900.000", favorite: "Fiesta Nugget 500g", status: "Aktif" },
+            { name: "Warkop Agam Modernland", type: "Reseller", wa: "0812-7788-9900", ltv: "Rp 7.600.000", favorite: "Kanzler Singles", status: "Potensi Churn" }
+        ];
+
+        let tickets = [
+            { id: "RF-201", customer: "Ibu Rina (Toko Frozen Pamulang)", category: "Kemasan Bocor / Plastik Rusak", detail: "Plastik vakum Dimsum 50s terlepas saat pengiriman via kurir instant.", priority: "Tinggi", status: "Open", date: "Hari ini, 10:30" },
+            { id: "RF-202", customer: "Pak Budi (Catering BSD)", category: "Keterlambatan Kurir Instant", detail: "Kurir terlambat 2 jam membawa Baso Sapi Sumber Selera untuk pesanan catering.", priority: "Tinggi", status: "In Progress", date: "Hari ini, 09:15" },
+            { id: "RF-203", customer: "Warkop Agam Modernland", category: "Produk Lumer / Penurunan Kualitas", detail: "Sosis Kanzler lumer karena terlalu lama di jalan saat jam macet sore.", priority: "Sedang", status: "Open", date: "Kemarin, 16:45" },
+            { id: "RF-204", customer: "Toko Kelontong Berkah", category: "Salah Kirim Varian Item", detail: "Order Fiesta Nugget 500g tetapi yang terkirim Belfoods Royal Nugget.", priority: "Sedang", status: "Open", date: "Kemarin, 14:20" }
+        ];
+
+        let activeCardFilter = 'all-customers';
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorBox = document.getElementById('login-error');
+
+            if (user === "rangga_master" && pass === "berkahjaya88") {
+                sessionStorage.setItem("isLoggedIn", "true");
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-content').classList.remove('hidden');
+                renderAll();
+                lucide.createIcons();
+            } else {
+                errorBox.classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem("isLoggedIn");
+            location.reload();
+        }
+
+        function switchTab(tabName) {
+            ['dashboard', 'products', 'customers', 'tickets', 'campaigns'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).className = "w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-slate-300 bg-[#1A1A2E] border border-slate-700 hover:border-[#FF006E] hover:text-[#FF006E] transition text-left";
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabName}`).className = "w-full flex items-center gap-3 p-3 rounded-lg text-xs font-bold text-black bg-[#00FFFF] shadow-[0_0_10px_#00FFFF] text-left";
+        }
+
+        function filterDashboardData(filterType) {
+            activeCardFilter = filterType;
+
+            document.querySelectorAll('.metric-card').forEach(card => {
+                card.className = "p-4 bg-[#121223] border border-slate-700 rounded-lg cursor-pointer hover:border-[#FF006E] transition";
+            });
+
+            renderDynamicContainer();
+        }
+
+        function renderDynamicContainer() {
+            const container = document.getElementById('dynamic-data-container');
+            const title = document.getElementById('panel-title');
+            const badge = document.getElementById('panel-badge');
+
+            if (activeCardFilter === 'all-customers') {
+                title.innerHTML = `<i data-lucide="users" class="w-4 h-4 text-[#00FFFF]" aria-hidden="true"></i> DOKUMEN_PELANGGAN_TERDAFTAR`;
+                badge.className = "bg-[#0080FF] text-black text-[10px] font-bold px-2 py-0.5 rounded";
+                badge.innerText = `TOTAL ${customers.length} MEMBER`;
+
+                container.innerHTML = `
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-[#1A1A2E] text-cyan-300 uppercase border-b border-slate-700">
+                            <tr><th class="p-2.5">PELANGGAN</th><th class="p-2.5">KATEGORI</th><th class="p-2.5">WA</th><th class="p-2.5">TOTAL_BELANJA</th><th class="p-2.5">FAVORIT</th><th class="p-2.5">STATUS</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800">
+                            ${customers.map(c => `
+                                <tr>
+                                    <td class="p-2.5 font-bold text-white">${c.name}</td>
+                                    <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] ${c.type === 'Reseller' ? 'bg-[#5D34D0]/30 text-amber-300 border border-[#FFD700]' : c.type === 'Catering' ? 'bg-[#FF006E]/20 text-pink-300 border border-[#FF006E]' : 'bg-slate-800 text-slate-300'}">${c.type}</span></td>
+                                    <td class="p-2.5 text-slate-400 font-mono">${c.wa}</td>
+                                    <td class="p-2.5 font-bold text-emerald-400">${c.ltv}</td>
+                                    <td class="p-2.5 text-slate-300">${c.favorite}</td>
+                                    <td class="p-2.5 text-[10px] ${c.status === 'Aktif' ? 'neon-text-cyan font-bold' : 'neon-text-gold'}">${c.status}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (activeCardFilter === 'reseller-only') {
+                const resellers = customers.filter(c => c.type === 'Reseller');
+                title.innerHTML = `<i data-lucide="store" class="w-4 h-4 text-[#FFD700]" aria-hidden="true"></i> MITRA_GROSIR_RESELLER`;
+                badge.className = "bg-[#FFD700] text-black text-[10px] font-bold px-2 py-0.5 rounded";
+                badge.innerText = `TOTAL ${resellers.length} RESELLER`;
+
+                container.innerHTML = `
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-[#1A1A2E] text-gold-300 uppercase border-b border-slate-700">
+                            <tr><th class="p-2.5">MITRA_RESELLER</th><th class="p-2.5">WA</th><th class="p-2.5">ITEM_GROSIR</th><th class="p-2.5">VOLUME_BELANJA</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800">
+                            ${resellers.map(c => `
+                                <tr>
+                                    <td class="p-2.5 font-bold text-white">${c.name}</td>
+                                    <td class="p-2.5 text-slate-400 font-mono">${c.wa}</td>
+                                    <td class="p-2.5 text-slate-300">${c.favorite}</td>
+                                    <td class="p-2.5 font-bold text-emerald-400">${c.ltv}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (activeCardFilter === 'pending-tickets') {
+                const pending = tickets.filter(t => t.status !== 'Resolved');
+                title.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-[#FF006E]" aria-hidden="true"></i> TIKET_KELUHAN_PENDING`;
+                badge.className = "bg-[#FF006E] text-white text-[10px] font-bold px-2 py-0.5 rounded";
+                badge.innerText = `${pending.length} TIKET AKTIF`;
+
+                container.innerHTML = `
+                    <div class="space-y-2">
+                        ${pending.map(t => `
+                            <div class="p-3 bg-[#1A1A2E] border border-[#FF006E]/40 rounded-lg flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-xs text-white">${t.customer} <span class="neon-text-pink">(${t.category})</span></div>
+                                    <div class="text-[11px] text-slate-400 mt-1">${t.detail}</div>
+                                </div>
+                                <span class="text-[10px] px-2 py-1 bg-[#FF006E] text-white font-bold rounded">${t.status}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (activeCardFilter === 'revenue-orders') {
+                title.innerHTML = `<i data-lucide="wallet" class="w-4 h-4 text-[#0080FF]" aria-hidden="true"></i> RINCIAN_VOLUME_PRODUK`;
+                badge.className = "bg-[#0080FF] text-black text-[10px] font-bold px-2 py-0.5 rounded";
+                badge.innerText = "TOTAL: RP 28.650.000";
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        ${products.map(p => `
+                            <div class="p-3 bg-[#1A1A2E] border border-slate-700 rounded-lg">
+                                <div class="text-[10px] neon-text-cyan font-bold">${p.category}</div>
+                                <div class="text-xs font-bold text-white mt-1">${p.name}</div>
+                                <div class="text-base font-bold text-emerald-400 mt-1">RP ${(p.reseller * p.sales / 10).toLocaleString('id-ID')}</div>
+                                <div class="text-[10px] text-slate-400 mt-0.5">ESTIMASI TERJUAL: ${p.sales} ${p.unit}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            lucide.createIcons();
+        }
+
+        function updateMetricCardValues() {
+            const totalCust = customers.length;
+            const totalReseller = customers.filter(c => c.type === 'Reseller').length;
+            const pendingTickets = tickets.filter(t => t.status !== 'Resolved').length;
+
+            document.getElementById('metric-total-customers').innerText = `${totalCust} MEMBER`;
+            document.getElementById('metric-total-resellers').innerText = `${totalReseller} MITRA`;
+            document.getElementById('metric-pending-tickets').innerText = `${pendingTickets} TIKET`;
+        }
+
+        function renderAll() {
+            updateMetricCardValues();
+
+            // Render Products Tab as Asymmetric / Varied Grid (R-05 & DESIGN.MD)
+            const productGrid = document.getElementById('product-list-zigzag');
+            productGrid.innerHTML = products.map((p, idx) => `
+                <div class="p-4 bg-[#121223] ${idx % 2 === 1 ? 'neon-border-pink' : 'neon-border-cyan'} rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="space-y-1">
+                        <span class="bg-[#5D34D0] text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded">${p.category}</span>
+                        <h3 class="font-bold text-sm text-white">${p.name}</h3>
+                        <div class="text-[11px] text-slate-400">STOK_GUDANG: ${p.stok} ${p.unit}</div>
+                    </div>
+                    <div class="flex gap-4 text-xs bg-[#1A1A2E] p-3 border border-slate-700 rounded-lg">
+                        <div>
+                            <span class="text-slate-400 block text-[10px]">ECERAN:</span>
+                            <span class="font-bold text-white">RP ${p.eceran.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="border-l border-slate-700 pl-4">
+                            <span class="neon-text-gold block text-[10px] font-bold">GROSIR_RESELLER:</span>
+                            <span class="font-bold text-emerald-400">RP ${p.reseller.toLocaleString('id-ID')}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Customer Table Tab
+            const customerBody = document.getElementById('customer-table-body');
+            customerBody.innerHTML = customers.map(c => `
+                <tr>
+                    <td class="p-3 font-bold text-white">${c.name}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 text-[10px] bg-[#1A1A2E] border border-slate-700 rounded text-slate-200 font-bold">${c.type}</span></td>
+                    <td class="p-3 font-mono text-slate-400">${c.wa}</td>
+                    <td class="p-3 font-bold text-emerald-400">${c.ltv}</td>
+                    <td class="p-3 text-slate-300">${c.favorite}</td>
+                    <td class="p-3 text-[10px] ${c.status === 'Aktif' ? 'neon-text-cyan font-bold' : 'neon-text-gold'}">${c.status}</td>
+                </tr>
+            `).join('');
+
+            // Render Tickets Tab
+            const fullTickets = document.getElementById('full-ticket-list');
+            fullTickets.innerHTML = tickets.map(t => `
+                <div class="p-4 bg-[#121223] border border-slate-700 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-[#0080FF] text-black font-mono text-[10px] font-bold px-1.5 py-0.5 rounded">${t.id}</span>
+                            <span class="font-bold text-xs text-white">${t.customer}</span>
+                            <span class="text-[10px] text-slate-400">• ${t.date}</span>
+                        </div>
+                        <div class="text-[11px] font-bold neon-text-pink mt-1">${t.category}</div>
+                        <p class="text-xs text-slate-300 mt-0.5">${t.detail}</p>
+                    </div>
+                    <div>
+                        <select onchange="updateTicketStatus('${t.id}', this.value)" aria-label="Ubah Status Tiket" class="bg-[#1A1A2E] border border-slate-700 rounded-lg text-xs p-2 text-cyan-300">
+                            <option value="Open" ${t.status === 'Open' ? 'selected' : ''}>STATUS: OPEN</option>
+                            <option value="In Progress" ${t.status === 'In Progress' ? 'selected' : ''}>STATUS: IN PROGRESS</option>
+                            <option value="Resolved" ${t.status === 'Resolved' ? 'selected' : ''}>STATUS: RESOLVED (SELESAI)</option>
+                        </select>
+                    </div>
+                </div>
+            `).join('');
+
+            renderDynamicContainer();
+        }
+
+        function openTicketModal() { document.getElementById('ticket-modal').classList.remove('hidden'); document.getElementById('ticket-modal').classList.add('flex'); }
+        function closeTicketModal() { document.getElementById('ticket-modal').classList.add('hidden'); document.getElementById('ticket-modal').classList.remove('flex'); }
+
+        function handleCreateTicket(e) {
+            e.preventDefault();
+            const customer = document.getElementById('input-customer').value;
+            const category = document.getElementById('input-category').value;
+            const detail = document.getElementById('input-detail').value;
+
+            tickets.unshift({
+                id: `RF-${200 + tickets.length + 1}`,
+                customer,
+                category,
+                detail,
+                priority: "Tinggi",
+                status: "Open",
+                date: "Baru saja"
+            });
+
+            closeTicketModal();
+            renderAll();
+            alert("Laporan keluhan berhasil disimpan ke dalam sistem.");
+        }
+
+        function updateTicketStatus(id, newStatus) {
+            const ticket = tickets.find(t => t.id === id);
+            if(ticket) {
+                ticket.status = newStatus;
+                renderAll();
+            }
+        }
+
+        function useTemplate(type) {
+            const msg = document.getElementById('campaign-message');
+            if(type === 'dimsum') msg.value = "Halo Kak! Dimsum Ayam frozen favoritmu ready stok segar lagi di Rangga Food. Pemesanan hari ini potongan harga 10%.";
+            if(type === 'reseller') msg.value = "Halo Mitra Rangga Food! Pengambilan minimal 20 pack Fiesta Nugget dan Sosis Kanzler mendapat potongan harga khusus reseller.";
+        }
+
+        function sendBroadcast() {
+            const msg = document.getElementById('campaign-message').value;
+            if(!msg) return alert("Silakan ketik isi pesan promo terlebih dahulu.");
+            alert("Simulasi pengiriman broadcast pesan WhatsApp berhasil diproses.");
+        }
+
+        window.onload = () => {
+            if (sessionStorage.getItem("isLoggedIn") === "true") {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-content').classList.remove('hidden');
+                renderAll();
+            }
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
